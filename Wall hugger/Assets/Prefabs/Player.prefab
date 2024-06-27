@@ -163,3 +163,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravity: 10
   speed: 5
+  jumpBufferTime: 0.1
+  coyoteTime: 0.1
+  jumpSpeed: 5
