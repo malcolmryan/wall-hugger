@@ -22,24 +22,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "aim",
-                    "type": "Value",
-                    "id": "93ec572a-6d22-4b56-95a3-5e1ef47d27f5",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "shoot",
-                    "type": "Button",
-                    "id": "70ea125a-214d-45e7-8b25-2aa9d8eb130b",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -185,13 +167,39 @@
                     "action": "jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "aiming",
+            "id": "f8df18b6-b344-4816-aa49-482b69f5dbe5",
+            "actions": [
+                {
+                    "name": "aim",
+                    "type": "Value",
+                    "id": "3441b970-4431-491a-a664-b74c57ad4430",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
-                    "name": "",
-                    "id": "ff10c92a-d999-42e0-98d9-868f4dfa19a1",
-                    "path": "<Mouse>/delta",
-                    "interactions": "",
+                    "name": "shoot",
+                    "type": "Button",
+                    "id": "184598aa-f00e-49dd-89a7-73a51cba2284",
+                    "expectedControlType": "Button",
                     "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ea5f79d7-541b-4fbb-9c23-ecd47177267a",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "Mouse",
                     "groups": "",
                     "action": "aim",
                     "isComposite": false,
@@ -199,7 +207,7 @@
                 },
                 {
                     "name": "",
-                    "id": "7ceecd6b-ac98-4a52-a790-998d0396b14b",
+                    "id": "e0c9c011-48f6-4bea-97f1-236db0109c13",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
                     "processors": "",
@@ -210,7 +218,7 @@
                 },
                 {
                     "name": "",
-                    "id": "59e47567-5f3d-45c6-89cb-f97d83508438",
+                    "id": "2a54072b-6e3d-4d95-8beb-5a7c0ee5cd1b",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
@@ -221,7 +229,7 @@
                 },
                 {
                     "name": "",
-                    "id": "7a3d2f4e-a834-4963-966b-a9939dd135cf",
+                    "id": "45c1dce7-282b-42da-999f-ad3e60f61d52",
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
