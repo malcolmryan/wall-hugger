@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &661237783525364944
 Transform:
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 3997978805258651298}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -3, z: 0}
+  m_LocalPosition: {x: 2, y: -3, z: 0.07751225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -76,11 +76,11 @@ SpriteShapeRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Color: {r: 0.2264151, g: 0.084507994, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_MaskInteraction: 0
   m_ShapeTexture: {fileID: 2800000, guid: b281b91a70a624a0da1c43adc1c30c7b, type: 3}
   m_Sprites:
-  - {fileID: 21300000, guid: 0ae2b74b1edd14bb18dd7b65ae916a54, type: 3}
+  - {fileID: 21300000, guid: 8a54c25fb3db1407eab532fed9dd6fe8, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
@@ -90,8 +90,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 0.05184686, y: -0.5515089, z: 0}
-    m_Extent: {x: 1.3018465, y: 0.80190444, z: 0}
+    m_Center: {x: 0.17677665, y: -0.4267767, z: 0}
+    m_Extent: {x: 1.1767766, y: 0.9267767, z: 0}
   m_SpriteSortPoint: 0
 --- !u!114 &7150235993302305635
 MonoBehaviour:
@@ -108,16 +108,16 @@ MonoBehaviour:
   m_Spline:
     m_IsOpenEnded: 1
     m_ControlPoints:
-    - position: {x: 1, y: -1, z: 0}
+    - position: {x: -1, y: 0, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
-      rightTangent: {x: -1, y: 1, z: 0}
+      rightTangent: {x: 1, y: 0, z: 0}
       mode: 2
       height: 1
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: -1, y: 0, z: 0}
-      leftTangent: {x: 1, y: 0, z: 0}
+    - position: {x: 1, y: -1, z: 0}
+      leftTangent: {x: -1, y: 1, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 2
       height: 1
@@ -133,14 +133,19 @@ MonoBehaviour:
   m_WorldSpaceUV: 0
   m_CornerAngleThreshold: 30
   m_ColliderDetail: 16
-  m_ColliderOffset: 0.4
+  m_ColliderOffset: -0.4
   m_UpdateCollider: 1
   m_EnableTangents: 0
   m_GeometryCached: 0
   m_UTess2D: 1
   m_Creator: {fileID: 0}
   m_Modifiers: []
-  m_ColliderSegment: []
+  m_ColliderSegment:
+  - {x: -1, y: -0.4}
+  - {x: -0.42317748, y: -0.4161002}
+  - {x: -0.14631586, y: -0.5001732}
+  - {x: 0.11133346, y: -0.69481164}
+  - {x: 0.71715724, y: -1.2828426}
 --- !u!68 &-1873862948128843657
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -176,8 +181,11 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.2499996, y: -0.5515089}
-  - {x: 1.3536934, y: -0.5515089}
+  - {x: -1, y: -0.4}
+  - {x: -0.42317748, y: -0.4161002}
+  - {x: -0.14631586, y: -0.5001732}
+  - {x: 0.11133346, y: -0.69481164}
+  - {x: 0.71715724, y: -1.2828426}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

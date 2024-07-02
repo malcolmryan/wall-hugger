@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2145122713040880848
 Transform:
@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5663755896144225251}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: -5, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4, y: -5, z: 0.07751225}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -140,7 +140,13 @@ MonoBehaviour:
   m_UTess2D: 1
   m_Creator: {fileID: 0}
   m_Modifiers: []
-  m_ColliderSegment: []
+  m_ColliderSegment:
+  - {x: -1.0354953, y: 1.318058}
+  - {x: -0.36720103, y: 0.6578974}
+  - {x: -0.029081006, y: 0.3749289}
+  - {x: 0.21109852, y: 0.255069}
+  - {x: 0.51638836, y: 0.20761597}
+  - {x: 1.2499996, y: 0.19960445}
 --- !u!68 &-5947939679107702439
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -176,8 +182,12 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.3536932, y: 0.5515089}
-  - {x: 1.2499998, y: 0.5515089}
+  - {x: -1.0354953, y: 1.318058}
+  - {x: -0.36720103, y: 0.6578974}
+  - {x: -0.029081006, y: 0.3749289}
+  - {x: 0.21109852, y: 0.255069}
+  - {x: 0.51638836, y: 0.20761597}
+  - {x: 1.2499996, y: 0.19960445}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
