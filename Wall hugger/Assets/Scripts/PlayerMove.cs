@@ -88,6 +88,7 @@ public class PlayerMove : MonoBehaviour
             lastContactTime = float.NegativeInfinity;
         }
 
+
         rigidbody.velocity = vDown + vMove;
 
         rigidbody.AddForce(adhere * ForceDir);
@@ -161,11 +162,6 @@ public class PlayerMove : MonoBehaviour
         RecordContacts(collision);
     }
 
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        RecordContacts(collision);
-    }
-
     private void RecordContacts(Collision2D collision)
     {
         // Note: this is called once per collider, on every physics frame
@@ -182,7 +178,16 @@ public class PlayerMove : MonoBehaviour
         collision.GetContacts(tempContacts);
         for (int i = 0; i < nContacts; i++)
         {
-            contacts.Add(tempContacts[i]);
+            // often a contact will be recorded for a frame while we are
+            // moving away from the surface, so 
+            // ignore contacts that we are already moving away from
+            Vector2 v = rigidbody.velocity;
+            float vDotN = Vector2.Dot(v, tempContacts[i].normal);
+
+            if (vDotN <= 0)
+            {
+                contacts.Add(tempContacts[i]);
+            }
         }        
     }
 #endregion Collisions
