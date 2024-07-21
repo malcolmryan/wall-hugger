@@ -539,7 +539,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3021448985120304450, guid: 48939019409064868965db355a56e6b1, type: 3}
       propertyPath: gravity
-      value: 15
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3021448985120304450, guid: 48939019409064868965db355a56e6b1, type: 3}
+      propertyPath: coyoteTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3788004443189993697, guid: 48939019409064868965db355a56e6b1, type: 3}
       propertyPath: m_LocalPosition.x

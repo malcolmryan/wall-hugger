@@ -5,18 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] private float gravity = 20; // m/s/s
+    [SerializeField] private float adhere = 20; // m/s/s
+    [SerializeField] private float gravity = 10; // m/s/s
     [SerializeField] private float speed = 5; // m/s
     [SerializeField] private float jumpBufferTime = 0.1f; // seconds
-    [SerializeField] private float coyoteTime = 0.1f; // seconds
+    [SerializeField] private float coyoteTime = 0.5f; // seconds
     [SerializeField] private float jumpSpeed = 1f; // m/s
+    [SerializeField] private float minDownSpeed = 1f; // m/s
 
     private Actions actions;
     private InputAction moveAction;
     private InputAction jumpAction;
 
     new private Rigidbody2D rigidbody;
-    private Vector2 gravityDir;
+    private Vector2 gravityDir = Vector2.down;
+    private Vector2 adhereDir;
     private Vector2 inputDir;
     private Vector2 movementDir;
     private ContactPoint2D[] tempContacts = new ContactPoint2D[4];
@@ -26,6 +29,21 @@ public class PlayerMove : MonoBehaviour
     private float lastJumpTime = float.NegativeInfinity;
     private float lastContactTime = float.NegativeInfinity;
 
+    private bool OnGround {
+        get 
+        {
+            return Time.time - lastContactTime < coyoteTime;
+        }
+    }
+
+    private Vector2 ForceDir {
+        get
+        {
+            float t = Mathf.Clamp01((Time.time - lastContactTime) / coyoteTime);
+            return Vector2.Lerp(adhereDir, gravityDir, t).normalized;
+        }
+    }
+
     void Awake()
     {
         actions = new Actions();
@@ -33,7 +51,9 @@ public class PlayerMove : MonoBehaviour
         jumpAction = actions.movement.jump;
 
         rigidbody = GetComponent<Rigidbody2D>();
-        gravityDir = (Vector2)(-transform.up).normalized;
+        adhereDir = (Vector2)(-transform.up).normalized;
+
+        Debug.Log("Awake");
     }
 
     void OnEnable()
@@ -56,20 +76,33 @@ public class PlayerMove : MonoBehaviour
 
         // do not change the component of movement in the gravity direction
         Vector2 oldV = rigidbody.velocity;
-        float vDotG = Vector2.Dot(oldV, gravityDir);
-        Vector2 vDown = vDotG * gravityDir;
+        float vDotG = Vector2.Dot(oldV, ForceDir);
+        Vector2 vDown = vDotG * ForceDir;
+
+        if (OnGround && vDown.magnitude < minDownSpeed)
+        {
+            vDown = minDownSpeed * adhereDir;
+        }
 
         // jump
-        if (Time.time - lastContactTime < coyoteTime &&
-            Time.time - lastJumpTime < jumpBufferTime)
+        if (OnGround && Time.time - lastJumpTime < jumpBufferTime)
         {
             // jump 'upwards'
-            vDown = -jumpSpeed * gravityDir;
+            vDown = -jumpSpeed * adhereDir;
             lastJumpTime = float.NegativeInfinity;
+            lastContactTime = float.NegativeInfinity;
         }
+
         rigidbody.velocity = vDown + vMove;
 
-        rigidbody.AddForce(gravity * gravityDir);
+        if (OnGround) 
+        {
+            rigidbody.AddForce(adhere * adhereDir);
+        }
+        else 
+        {
+            rigidbody.AddForce(gravity * gravityDir);
+        }
 
         // clear contacts
         contacts.Clear();
@@ -92,7 +125,7 @@ public class PlayerMove : MonoBehaviour
         }        
 
         // find contact point with closest tangent plane
-        float minDot = 1f;
+        float minDot = float.PositiveInfinity;
         activeContact = null;
 
         for (int i = 0; i < contacts.Count; i++)
@@ -107,16 +140,16 @@ public class PlayerMove : MonoBehaviour
             }
         }
 
-        // set gravity to most recent active contact's 'down' direction
         if (activeContact != null)
         {
+            // set adhere direction to most recent active contact's 'down' direction
             lastContactTime = Time.time;
-            gravityDir = -activeContact.Value.normal;
+            adhereDir = -activeContact.Value.normal;
         }
 
-        // movement is always perpendicular to gravity
-        float vDotG = Vector2.Dot(movementDir, gravityDir);
-        movementDir -= vDotG * gravityDir;
+        // movement is always perpendicular to gravity/adhere force
+        float vDotG = Vector2.Dot(movementDir, ForceDir);
+        movementDir -= vDotG * ForceDir;
     }
 
     void Update()
@@ -169,13 +202,19 @@ public class PlayerMove : MonoBehaviour
 #region Gizmos
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + (Vector3)inputDir);
+        Gizmos.color = (OnGround ? Color.magenta : Color.black);
+        Gizmos.DrawSphere(transform.position, 0.1f);
+
+        // Gizmos.color = Color.red;
+        // Gizmos.DrawLine(transform.position, transform.position + (Vector3)inputDir);
 
         Gizmos.color = Color.magenta;
         Gizmos.DrawLine(transform.position, transform.position + (Vector3)movementDir);
 
         Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + (Vector3)adhereDir);
+
+        Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + (Vector3)gravityDir);
 
         for (int i = 0; i < contacts.Count; i++)
