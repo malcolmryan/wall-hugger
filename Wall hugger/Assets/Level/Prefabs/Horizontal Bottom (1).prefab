@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1224790369636596929
+--- !u!1 &7291179095488683644
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4873992234659077106}
-  - component: {fileID: 2526265560478771603}
-  - component: {fileID: 4686387969388351676}
-  - component: {fileID: 8291773155436199547}
-  - component: {fileID: 5443435745172976559}
+  - component: {fileID: 7092100091671610631}
+  - component: {fileID: 361432998405807001}
+  - component: {fileID: 218681684507654672}
+  - component: {fileID: 6211955454958059648}
   m_Layer: 6
-  m_Name: Ramp Bottom Left
+  m_Name: Horizontal Bottom (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4873992234659077106
+--- !u!4 &7092100091671610631
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224790369636596929}
+  m_GameObject: {fileID: 7291179095488683644}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.513622, y: -8.004185, z: 0.0049620266}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.486378, y: -8.004185, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1971053207 &2526265560478771603
+--- !u!1971053207 &361432998405807001
 SpriteShapeRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224790369636596929}
+  m_GameObject: {fileID: 7291179095488683644}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -91,16 +90,16 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   - {fileID: 21300000, guid: 608e61deb05c54660bebf5a4dd2ee02d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 0.088388205, y: 0.5883883, z: 0}
-    m_Extent: {x: 2.0883884, y: 1.5883884, z: 0}
+    m_Center: {x: 0, y: -0.37500006, z: 0}
+    m_Extent: {x: 4.0000005, y: 0.62500006, z: 0}
   m_SpriteSortPoint: 0
---- !u!114 &4686387969388351676
+--- !u!114 &218681684507654672
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224790369636596929}
+  m_GameObject: {fileID: 7291179095488683644}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 90539df1cd5704abcb25fec9f3f5f84b, type: 3}
@@ -109,23 +108,23 @@ MonoBehaviour:
   m_Spline:
     m_IsOpenEnded: 0
     m_ControlPoints:
-    - position: {x: -2, y: 0, z: 0}
+    - position: {x: -4, y: 0, z: 0}
       leftTangent: {x: 0, y: -1, z: 0}
-      rightTangent: {x: 2, y: 0, z: 0}
+      rightTangent: {x: 1, y: 0, z: 0}
       mode: 2
       height: 0.25
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 2, y: 2, z: 0}
-      leftTangent: {x: -2, y: -2, z: 0}
-      rightTangent: {x: 0, y: 0, z: 0}
+    - position: {x: 4, y: 0, z: 0}
+      leftTangent: {x: -1, y: 0, z: 0}
+      rightTangent: {x: 0, y: -1, z: 0}
       mode: 2
       height: 0.25
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 2, y: -1, z: 0}
+    - position: {x: 4, y: -1, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -133,7 +132,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: -2, y: -1, z: 0}
+    - position: {x: -4, y: -1, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -158,27 +157,18 @@ MonoBehaviour:
   m_Creator: {fileID: 0}
   m_Modifiers: []
   m_ColliderSegment:
-  - {x: -2, y: 0.25}
-  - {x: -1.3036283, y: 0.2546577}
-  - {x: -0.7806711, y: 0.28613675}
-  - {x: -0.37787318, y: 0.36683625}
-  - {x: -0.19949213, y: 0.43267322}
-  - {x: 0.16228437, y: 0.63795304}
-  - {x: 0.3628958, y: 0.7882494}
-  - {x: 0.8370013, y: 1.2063718}
-  - {x: 1.4493378, y: 1.8034816}
-  - {x: 1.8232234, y: 2.176777}
-  - {x: 2, y: 2}
-  - {x: 2, y: -1}
-  - {x: -2, y: -0.9997037}
-  - {x: -2, y: 0.25}
---- !u!68 &8291773155436199547
+  - {x: -4, y: 0.25}
+  - {x: 4, y: 0.25}
+  - {x: 4, y: -1}
+  - {x: -4, y: -0.9997037}
+  - {x: -4, y: 0.25}
+--- !u!68 &6211955454958059648
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224790369636596929}
+  m_GameObject: {fileID: 7291179095488683644}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -207,37 +197,12 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -2, y: 0.25}
-  - {x: -1.3036283, y: 0.2546577}
-  - {x: -0.7806711, y: 0.28613675}
-  - {x: -0.37787318, y: 0.36683625}
-  - {x: -0.19949213, y: 0.43267322}
-  - {x: 0.16228437, y: 0.63795304}
-  - {x: 0.3628958, y: 0.7882494}
-  - {x: 0.8370013, y: 1.2063718}
-  - {x: 1.4493378, y: 1.8034816}
-  - {x: 1.8232234, y: 2.176777}
-  - {x: 2, y: 2}
-  - {x: 2, y: -1}
-  - {x: -2, y: -0.9997037}
-  - {x: -2, y: 0.25}
+  - {x: -4, y: 0.25}
+  - {x: 4, y: 0.25}
+  - {x: 4, y: -1}
+  - {x: -4, y: -0.9997037}
+  - {x: -4, y: 0.25}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &5443435745172976559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1224790369636596929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6a9934a1a0f44e89ccbb25355461bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thickness: 0
-  material: {fileID: 0}
-  filter: -65535
-  sourceCollider: {fileID: 8291773155436199547}

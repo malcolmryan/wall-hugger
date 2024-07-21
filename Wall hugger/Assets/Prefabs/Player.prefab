@@ -165,10 +165,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 10
-  speed: 5
+  speed: 10
   jumpBufferTime: 0.1
   coyoteTime: 0.1
-  jumpSpeed: 5
+  jumpSpeed: 10
 --- !u!96 &-277662209937424546
 TrailRenderer:
   serializedVersion: 3
