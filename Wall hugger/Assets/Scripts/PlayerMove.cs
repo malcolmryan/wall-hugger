@@ -79,11 +79,6 @@ public class PlayerMove : MonoBehaviour
         float vDotG = Vector2.Dot(oldV, ForceDir);
         Vector2 vDown = vDotG * ForceDir;
 
-        if (OnGround && vDown.magnitude < minDownSpeed)
-        {
-            vDown = minDownSpeed * adhereDir;
-        }
-
         // jump
         if (OnGround && Time.time - lastJumpTime < jumpBufferTime)
         {
@@ -95,14 +90,7 @@ public class PlayerMove : MonoBehaviour
 
         rigidbody.velocity = vDown + vMove;
 
-        if (OnGround) 
-        {
-            rigidbody.AddForce(adhere * adhereDir);
-        }
-        else 
-        {
-            rigidbody.AddForce(gravity * gravityDir);
-        }
+        rigidbody.AddForce(adhere * ForceDir);
 
         // clear contacts
         contacts.Clear();
