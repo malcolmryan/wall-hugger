@@ -72,26 +72,30 @@ public class PlayerMove : MonoBehaviour
         float movementScale = inputDir.magnitude;
         movementDir = inputDir.normalized;
         ResolveContacts();
-        Vector2 vMove = speed * movementScale * movementDir;
 
-        // do not change the component of movement in the gravity direction
-        Vector2 oldV = rigidbody.velocity;
-        float vDotG = Vector2.Dot(oldV, ForceDir);
-        Vector2 vDown = vDotG * ForceDir;
-
-        // jump
-        if (OnGround && Time.time - lastJumpTime < jumpBufferTime)
+        if (OnGround)
         {
-            // jump 'upwards'
-            vDown = -jumpSpeed * adhereDir;
-            lastJumpTime = float.NegativeInfinity;
-            lastContactTime = float.NegativeInfinity;
+            Vector2 vMove = speed * movementScale * movementDir;
+
+            // do not change the component of movement in the gravity direction
+            Vector2 oldV = rigidbody.velocity;
+            float vDotG = Vector2.Dot(oldV, adhereDir);
+            Vector2 vDown = vDotG * ForceDir;
+
+            // jump
+            if (OnGround && Time.time - lastJumpTime < jumpBufferTime)
+            {
+                // jump 'upwards'
+                vDown = -jumpSpeed * adhereDir;
+                lastJumpTime = float.NegativeInfinity;
+                lastContactTime = float.NegativeInfinity;
+            }
+
+            rigidbody.velocity = vDown + vMove;
+            rigidbody.AddForce(adhere * adhereDir);
         }
 
-
-        rigidbody.velocity = vDown + vMove;
-
-        rigidbody.AddForce(adhere * ForceDir);
+        rigidbody.AddForce(gravity * gravityDir);
 
         // clear contacts
         contacts.Clear();
@@ -137,8 +141,8 @@ public class PlayerMove : MonoBehaviour
         }
 
         // movement is always perpendicular to gravity/adhere force
-        float vDotG = Vector2.Dot(movementDir, ForceDir);
-        movementDir -= vDotG * ForceDir;
+        float vDotG = Vector2.Dot(movementDir, adhereDir);
+        movementDir -= vDotG * adhereDir;
     }
 
     void Update()
@@ -184,9 +188,13 @@ public class PlayerMove : MonoBehaviour
             Vector2 v = rigidbody.velocity;
             float vDotN = Vector2.Dot(v, tempContacts[i].normal);
 
-            if (vDotN <= 0)
+            if (vDotN <= 0.01) // small epsilon to ignore micro movements
             {
                 contacts.Add(tempContacts[i]);
+            }
+            else
+            {
+                Debug.Log($"Ignoring contact with {collision.gameObject.name} v = {rigidbody.velocity} vDotN = {vDotN}");
             }
         }        
     }
