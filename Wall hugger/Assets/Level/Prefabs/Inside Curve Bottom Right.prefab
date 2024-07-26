@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7268368114971357891}
   - component: {fileID: 1947850368223766207}
   - component: {fileID: 2669306106554994028}
-  - component: {fileID: 8969308604435861454}
   m_Layer: 6
   m_Name: Inside Curve Bottom Right
   m_TagString: Untagged
@@ -214,22 +213,6 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &8969308604435861454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6480569183071592619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6a9934a1a0f44e89ccbb25355461bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thickness: 0
-  material: {fileID: 0}
-  filter: -65535
-  sourceCollider: {fileID: 2669306106554994028}
 --- !u!1001 &8644644606509074319
 PrefabInstance:
   m_ObjectHideFlags: 0

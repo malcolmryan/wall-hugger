@@ -234,6 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleRenderers:
   - {fileID: 0}
+  currentCam: {fileID: 519420031}
   settings:
     blendSource: 3
     blendDestination: 0
@@ -258,6 +259,11 @@ MonoBehaviour:
     refractionDownsample: 1
     generateFoam: 0
     foamDownsample: 1
+  depth_BlurMaterial: {fileID: 0}
+  normal_ReconstructMaterial: {fileID: 0}
+  thickness_Material: {fileID: 0}
+  color_Material: {fileID: 0}
+  fluid_Material: {fileID: 0}
 --- !u!4 &762384411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8082557651952840388, guid: b75b07dd05dc446c39dedb64998de305, type: 3}
@@ -375,6 +381,10 @@ PrefabInstance:
     - target: {fileID: 926234234829092273, guid: b75b07dd05dc446c39dedb64998de305, type: 3}
       propertyPath: m_Name
       value: Room 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 926234234829092273, guid: b75b07dd05dc446c39dedb64998de305, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1109070095150744964, guid: b75b07dd05dc446c39dedb64998de305, type: 3}
       propertyPath: m_Creator
@@ -520,7 +530,8 @@ PrefabInstance:
       propertyPath: m_Spline.m_ControlPoints.Array.data[1].rightTangent.y
       value: -1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8550616963139253011, guid: b75b07dd05dc446c39dedb64998de305, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1197456661498952165, guid: b75b07dd05dc446c39dedb64998de305, type: 3}
     m_AddedGameObjects:
@@ -538,8 +549,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3021448985120304450, guid: 48939019409064868965db355a56e6b1, type: 3}
-      propertyPath: gravity
-      value: 10
+      propertyPath: adhere
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3021448985120304450, guid: 48939019409064868965db355a56e6b1, type: 3}
+      propertyPath: jumpSpeed
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3021448985120304450, guid: 48939019409064868965db355a56e6b1, type: 3}
       propertyPath: coyoteTime

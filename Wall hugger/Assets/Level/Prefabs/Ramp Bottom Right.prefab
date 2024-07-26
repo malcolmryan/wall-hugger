@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8380466001831687150}
   - component: {fileID: 4037448035680410545}
   - component: {fileID: 2652046696406029340}
-  - component: {fileID: 817204188054899901}
   m_Layer: 6
   m_Name: Ramp Bottom Right
   m_TagString: Untagged
@@ -225,19 +224,3 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &817204188054899901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8541243331676451744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6a9934a1a0f44e89ccbb25355461bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thickness: 0
-  material: {fileID: 0}
-  filter: -65535
-  sourceCollider: {fileID: 2652046696406029340}

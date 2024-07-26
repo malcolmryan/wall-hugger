@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4901763164457916877}
   - component: {fileID: 8779604803162449091}
   - component: {fileID: 8259006086632457828}
-  - component: {fileID: 1907704480281061394}
   m_Layer: 6
   m_Name: Horizontal Top
   m_TagString: Untagged
@@ -207,19 +206,3 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &1907704480281061394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4679466918298424847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6a9934a1a0f44e89ccbb25355461bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thickness: 0
-  material: {fileID: 0}
-  filter: -65535
-  sourceCollider: {fileID: 8259006086632457828}
