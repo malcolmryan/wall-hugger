@@ -25,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     private ContactPoint2D[] tempContacts = new ContactPoint2D[4];
     private List<ContactPoint2D> contacts = new List<ContactPoint2D>();
     private ContactPoint2D? activeContact = null;
+    private ContactPoint2D? lastContact = null;
 
     private float lastJumpTime = float.NegativeInfinity;
     private float lastContactTime = float.NegativeInfinity;
@@ -129,6 +130,7 @@ public class PlayerMove : MonoBehaviour
             if (vDotN < minDot)
             {
                 activeContact = contacts[i];
+                lastContact = activeContact;
                 minDot = vDotN;
             }
         }
@@ -138,6 +140,12 @@ public class PlayerMove : MonoBehaviour
             // set adhere direction to most recent active contact's 'down' direction
             lastContactTime = Time.time;
             adhereDir = -activeContact.Value.normal;
+        }
+        else if (lastContact != null) 
+        {
+            // adhere to the nearest point on the collider we last touched
+            Vector2 p = lastContact.Value.collider.ClosestPoint(rigidbody.position);
+            adhereDir = (p - rigidbody.position).normalized;
         }
 
         // movement is always perpendicular to gravity/adhere force
@@ -191,10 +199,6 @@ public class PlayerMove : MonoBehaviour
             if (vDotN <= 0.01) // small epsilon to ignore micro movements
             {
                 contacts.Add(tempContacts[i]);
-            }
-            else
-            {
-                Debug.Log($"Ignoring contact with {collision.gameObject.name} v = {rigidbody.velocity} vDotN = {vDotN}");
             }
         }        
     }
