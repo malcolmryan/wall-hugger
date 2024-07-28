@@ -138,7 +138,6 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -220,50 +219,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519420033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c1a04b0b1141422fb89a6def170146d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particleRenderers:
-  - {fileID: 0}
-  currentCam: {fileID: 519420031}
-  settings:
-    blendSource: 3
-    blendDestination: 0
-    particleBlendSource: 3
-    particleBlendDestination: 0
-    particleZWrite: 0
-    thicknessCutoff: 1.2
-    thicknessDownsample: 2
-    generateSurface: 0
-    blurRadius: 0.02
-    surfaceDownsample: 1
-    lighting: 0
-    smoothness: 0.8
-    metalness: 0
-    ambientMultiplier: 1
-    generateReflection: 0
-    reflection: 0.2
-    generateRefraction: 0
-    transparency: 1
-    absorption: 5
-    refraction: 0.01
-    refractionDownsample: 1
-    generateFoam: 0
-    foamDownsample: 1
-  depth_BlurMaterial: {fileID: 0}
-  normal_ReconstructMaterial: {fileID: 0}
-  thickness_Material: {fileID: 0}
-  color_Material: {fileID: 0}
-  fluid_Material: {fileID: 0}
 --- !u!4 &762384411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8082557651952840388, guid: b75b07dd05dc446c39dedb64998de305, type: 3}
