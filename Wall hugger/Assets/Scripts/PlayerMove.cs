@@ -12,6 +12,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.5f; // seconds
     [SerializeField] private float jumpSpeed = 1f; // m/s
     [SerializeField] private float minDownSpeed = 1f; // m/s
+    [SerializeField] private Vector2 vAirAdjustment; // m/s
 
     private Actions actions;
     private InputAction moveAction;
@@ -22,6 +23,7 @@ public class PlayerMove : MonoBehaviour
     private Vector2 adhereDir;
     private Vector2 inputDir;
     private Vector2 movementDir;
+    private Vector2 velocity;
     private ContactPoint2D[] tempContacts = new ContactPoint2D[4];
     private List<ContactPoint2D> contacts = new List<ContactPoint2D>();
     private ContactPoint2D? activeContact = null;
@@ -92,11 +94,16 @@ public class PlayerMove : MonoBehaviour
                 lastContactTime = float.NegativeInfinity;
             }
 
-            rigidbody.velocity = vDown + vMove;
+            velocity = vDown + vMove;
+            rigidbody.velocity = velocity;
             rigidbody.AddForce(adhere * adhereDir);
         }
-
-        rigidbody.AddForce(gravity * gravityDir);
+        else 
+        {
+            // keep track of the "freefall" velocity then add an adjustment for cotnrols
+            velocity += Time.fixedDeltaTime * gravity * gravityDir; 
+            rigidbody.velocity = velocity + Vector2.Scale(vAirAdjustment, inputDir);
+        }
 
         // clear contacts
         contacts.Clear();
