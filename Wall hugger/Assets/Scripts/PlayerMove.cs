@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using WordsOnPlay.Utils;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField] private float adhere = 20; // m/s/s
+    [SerializeField] private float stickyAdhere = 100; // m/s/s
+    [SerializeField] private float slimyAdhere = 5; // m/s/s
     [SerializeField] private float gravity = 10; // m/s/s
     [SerializeField] private float speed = 5; // m/s
     [SerializeField] private float jumpBufferTime = 0.1f; // seconds
@@ -13,6 +15,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float jumpSpeed = 1f; // m/s
     [SerializeField] private float minDownSpeed = 1f; // m/s
     [SerializeField] private Vector2 vAirAdjustment; // m/s
+    [SerializeField] private LayerMask stickyLayer;
+    [SerializeField] private LayerMask slimyLayer;
 
     private Actions actions;
     private InputAction moveAction;
@@ -28,7 +32,7 @@ public class PlayerMove : MonoBehaviour
     private List<ContactPoint2D> contacts = new List<ContactPoint2D>();
     private ContactPoint2D? activeContact = null;
     private ContactPoint2D? lastContact = null;
-
+    
     private float lastJumpTime = float.NegativeInfinity;
     private float lastContactTime = float.NegativeInfinity;
 
@@ -36,14 +40,6 @@ public class PlayerMove : MonoBehaviour
         get 
         {
             return Time.time - lastContactTime < coyoteTime;
-        }
-    }
-
-    private Vector2 ForceDir {
-        get
-        {
-            float t = Mathf.Clamp01((Time.time - lastContactTime) / coyoteTime);
-            return Vector2.Lerp(adhereDir, gravityDir, t).normalized;
         }
     }
 
@@ -83,7 +79,7 @@ public class PlayerMove : MonoBehaviour
             // do not change the component of movement in the gravity direction
             Vector2 oldV = rigidbody.velocity;
             float vDotG = Vector2.Dot(oldV, adhereDir);
-            Vector2 vDown = vDotG * ForceDir;
+            Vector2 vDown = vDotG * adhereDir;
 
             // jump
             if (OnGround && Time.time - lastJumpTime < jumpBufferTime)
@@ -96,14 +92,13 @@ public class PlayerMove : MonoBehaviour
 
             velocity = vDown + vMove;
             rigidbody.velocity = velocity;
-            rigidbody.AddForce(adhere * adhereDir);
+            bool isSlimy = slimyLayer.Contains(lastContact.Value.collider.gameObject);
+            float adhere = isSlimy ? slimyAdhere : stickyAdhere;    
+            rigidbody.AddForce(stickyAdhere * adhereDir);
         }
-        else 
-        {
-            // keep track of the "freefall" velocity then add an adjustment for cotnrols
-            velocity += Time.fixedDeltaTime * gravity * gravityDir; 
-            rigidbody.velocity = velocity + Vector2.Scale(vAirAdjustment, inputDir);
-        }
+
+        // apparently there is not ForceMode2D.Acceleration
+        rigidbody.AddForce(gravity * gravityDir * rigidbody.mass);
 
         // clear contacts
         contacts.Clear();
