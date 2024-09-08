@@ -51,8 +51,6 @@ public class PlayerMove : MonoBehaviour
 
         rigidbody = GetComponent<Rigidbody2D>();
         adhereDir = (Vector2)(-transform.up).normalized;
-
-        Debug.Log("Awake");
     }
 
     void OnEnable()
@@ -94,7 +92,7 @@ public class PlayerMove : MonoBehaviour
             rigidbody.velocity = velocity;
             bool isSlimy = slimyLayer.Contains(lastContact.Value.collider.gameObject);
             float adhere = isSlimy ? slimyAdhere : stickyAdhere;    
-            rigidbody.AddForce(stickyAdhere * adhereDir);
+            rigidbody.AddForce(adhere * adhereDir);
         }
 
         // apparently there is not ForceMode2D.Acceleration

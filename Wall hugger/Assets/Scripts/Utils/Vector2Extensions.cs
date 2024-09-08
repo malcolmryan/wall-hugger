@@ -17,12 +17,20 @@ public static class Vector2Extensions  {
 	}
 
 	/**
-	 * Rorate a 2D vector anticlockwise by the given angle (in degrees)
+	 * Rotate a 2D vector anticlockwise by the given angle (in degrees)
 	 */
 
 	public static Vector2 Rotate(this Vector2 v, float angle) {
 		Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
 		return q * v;
+	}
+
+	/**
+	 * Project this vector onto another
+	 */
+	public static Vector2 Project(this Vector2 v, Vector2 onto) {
+		Vector2 u = onto.normalized;
+		return Vector2.Dot(v, u) * u;
 	}
 
 }

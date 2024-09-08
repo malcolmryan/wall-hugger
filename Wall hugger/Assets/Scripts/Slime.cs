@@ -1,133 +1,200 @@
-using System.Collections;
+/**
+ *
+ *
+ * Author: Malcolm Ryan
+ * Version: 1.0
+ * For Unity Version: 2022.3
+ */
+
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(LineRenderer))]
 public class Slime : MonoBehaviour
 {
-    [SerializeField] private int nPoints = 20;
-    [SerializeField] private float minRadius = 1;
-    [SerializeField] private float maxRadius = 2;
-    [SerializeField] private float smoothing = 0;
-    [SerializeField] private LayerMask groundLayer;
 
-    private MeshFilter meshFilter;
-    private Mesh mesh;
+#region Parameters
+    [SerializeField] private float maxDistance;
+    [SerializeField] private float spreadSpeed = 2;
+#endregion 
 
-    private float[] distance = null;
-    private float[] smoothDistance = null;
-    private Vector3[] vertices;
-    private int[] tris;
+#region Components
+    new private Rigidbody2D rigidbody;
+    new private LineRenderer lineRenderer;
+#endregion
 
+#region State
+    private EdgeCollider2D currentCollider;   
+    private List<Vector2> surface; 
+    private int? closestSegment;
+
+    private ContactPoint2D[] contacts;
+    private LinkedList<Vector2> points;
+    private Vector3[] pointsArray;
+#endregion
+
+#region Init & Destroy
     void Awake()
     {
-        meshFilter = GetComponent<MeshFilter>();
-        mesh = meshFilter.mesh;
+        rigidbody = GetComponent<Rigidbody2D>();
+        lineRenderer = GetComponent<LineRenderer>();
+
+        surface = new List<Vector2>();
+        contacts = new ContactPoint2D[1];
+        points = new LinkedList<Vector2>();
+        pointsArray = new Vector3[1];
     }
+#endregion Init
 
-    void Start()
-    {
-        InitMesh();
-    } 
-
+#region Update
     void Update()
     {
-        UpdateMesh();        
-    }
+        Vector2 c = contacts[0].point;
+        Vector2? closestPoint = null;
+        closestSegment = GetClosestSegment(c, out closestPoint);
 
-    private void InitMesh()
-    {
-        distance = new float[nPoints];
-        smoothDistance = new float[nPoints];
-        vertices = new Vector3[nPoints+1];
-        vertices[0] = Vector3.zero;   // center
-        for (int i = 1; i <= nPoints; i++)
-        {
-            float angle = (i-1) * 360f / nPoints;           
-            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);;
+        if (closestSegment != null) {
+            int i = closestSegment.Value;
+            Vector2 p = closestPoint.Value;
+            points.Clear();
+            points.AddLast(p);
+
+            // spread to the right
+            float d = maxDistance;
+            int next = i + 1;
+            d -= Vector2.Distance(p, surface[next]);
+
+            while (d > 0 && next < surface.Count)
+            {
+                points.AddLast(surface[next]);
+                next++;
+
+                if (next < surface.Count) {
+                    d -= Vector2.Distance(surface[next-1], surface[next]);
+                }
+            }
             
-            distance[i-1] = minRadius;
-            smoothDistance[i-1] = minRadius;
-            vertices[i] = q * (minRadius * Vector3.right);
-        }
-        mesh.vertices = vertices;
+            if (d < 0) 
+            {
+                // E = Sn + d * norm(Sn - Sn-1)
+                Vector2 v = surface[next] - surface[next-1];
+                Vector2 end = surface[next] + d * v.normalized;
+                points.AddLast(end);
+            }
 
-        tris = new int[3 * nPoints];
-        int k = 0;
-        for (int i = 0; i < nPoints; i++)
-        {
-            tris[k++] = 0;
-            tris[k++] = i+1;
-            tris[k++] = (i+1) % nPoints + 1;
+            // spread to the left
+            d = maxDistance;
+            next = i;
+            d -= Vector2.Distance(p, surface[next]);
+            
+            while (d > 0 && next >= 0)
+            {
+                points.AddFirst(surface[next]);
+                next--;
+
+                if (next >= 0) {
+                    d -= Vector2.Distance(surface[next+1], surface[next]);
+                }
+            }
+
+            if (d < 0) 
+            {
+                // E = Sn + d * norm(Sn - Sn+1)
+                Vector2 v = surface[next] - surface[next+1];
+                Vector2 end = surface[next] + d * v.normalized;
+                points.AddFirst(end);
+            }
+
         }
-        mesh.triangles = tris;
+
+
     }
 
-    private void UpdateMesh()
+    private int? GetClosestSegment(Vector2 point, out Vector2? closestPoint)
     {
-        // raycast to calculate distances
-        for (int i = 0; i < nPoints; i++)
+        int? closestSegment = null;
+        closestPoint = null;
+        float minDistance = float.PositiveInfinity;
+
+        for (int i = 0; i < surface.Count-1; i++)
         {
-            float angle = i * 360f / nPoints;                   
-            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            Vector3 dir = q * Vector3.right;
+            // Q(t) = Si + t v
+            // P - Q(t) = P - Si - t v
+            //          = u - t v
+            // [P - Q(t)].v = 0
+            // (u - t v).v = 0
+            // u.v = t v.v
+            // t = u.v / v.v
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxRadius, groundLayer);
+            Vector2 u = point - surface[i];
+            Vector2 v = surface[i+1] - surface[i];
+            float t = Vector2.Dot(u,v) / Vector2.Dot(v,v);
 
-            distance[i] = (hit.collider == null ? minRadius : hit.distance);
-        }
-
-        // apply a kernel to smooth
-        for (int i = 0; i < nPoints; i++)
-        {
-            if (distance[i] > minRadius)
+            if (t >= 0 && t < 1) 
             {
-                smoothDistance[i] = distance[i];
+                Vector2 p = surface[i] + t * v;
+                float d = Vector2.Distance(p,u);
+                if (d < minDistance)
+                {
+                    closestSegment = i;
+                    closestPoint = p;
+                    minDistance = d;
+                }
             }
-            else
-            {
-                int left = (i - 1 + nPoints) % nPoints;
-                int right = (i + 1) % nPoints;
-
-                smoothDistance[i] = distance[i] * 0.5f;
-                smoothDistance[i] += distance[left] * 0.25f;
-                smoothDistance[i] += distance[right] * 0.25f;
-            }
-
         }
 
-        // update mesh
-        for (int i = 1; i <= nPoints; i++)
-        {
-            float angle = (i-1) * 360f / nPoints;                   
-            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            Vector3 dir = q * Vector3.right;
+        return closestSegment;
+    }
+#endregion Update
 
-            // TODO make this framerate indept
-            float t = 1- smoothing;
-            // vertices[i] = Vector3.Lerp(vertices[i], smoothDistance[i-1] * dir, t);
-            vertices[i] = smoothDistance[i-1] * dir;
-        }
-        mesh.vertices = vertices;
-
+#region FixedUpdate
+    void FixedUpdate()
+    {
+        rigidbody.GetContacts(contacts);
     }
 
+    void OnCollisionEnter2D(Collision2D collision) 
+    {
+        if (collision.collider is EdgeCollider2D)
+        {
+            currentCollider = (EdgeCollider2D)collision.collider;
+            Transform t = currentCollider.transform;
+            currentCollider.GetPoints(surface);
+
+            // convert all points to world coords
+            for (int i = 0; i < surface.Count; i++)
+            {
+                surface[i] = t.TransformPoint(surface[i]);
+            }
+        }
+    }
+#endregion FixedUpdate
+
+#region Gizmos
     void OnDrawGizmos()
     {
-        if (!Application.isPlaying) 
+        if (currentCollider != null)
         {
-            return;
-        }
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(contacts[0].point, 0.1f);
 
-        Gizmos.color = Color.yellow;
+            Gizmos.color = Color.yellow;
+            for (int i = 0; i < surface.Count-1; i++) 
+            {
+                Gizmos.DrawLine(surface[i], surface[i+1]);
+            }
 
-        for (int i = 0; i < nPoints; i++)
-        {
-            float angle = i * 360f / nPoints;                   
-            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            Vector3 dir = q * Vector3.right;
-
-            Gizmos.DrawLine(transform.position, transform.position + distance[i] * dir);
+            Gizmos.color = Color.red;
+            Vector2? last = null;
+            foreach (Vector2 next in points) 
+            {
+                if (last.HasValue) {
+                    Gizmos.DrawLine(last.Value, next);
+                }
+                last = next;
+            }
         }
     }
-
+#endregion Gizmos
 }
